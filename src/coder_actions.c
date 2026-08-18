@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   coder_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/17 17:10:23 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 17:12:53 by abchahid         ###   ########.fr       */
+/*   Created: 2026/08/18 18:43:33 by abchahid          #+#    #+#             */
+/*   Updated: 2026/08/18 18:50:33 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	main(int argc, char **argv)
+void	print_action(t_data *data, int coder_id, char *msg)
 {
-	t_data		data;
-	t_heapq		pqueue;
-	t_request	top;
-
-	if (!parse_args(argc, argv, &data.args))
-	{
-		printf("Error: Wrong arguments!\n");
-		return (1);
-	}
-	if (!init_data(&data))
-	{
-		printf("Error: Initialization error!");
-		return (1);
-	}
-	free_all(&data);
+	pthread_mutex_lock(&data->print_lock);
+	printf("%d %d %s",  coder_id, msg);
+	pthread_mutex_unlock(&data->print_lock);
 }
+void	do_compile(t_data *data, t_coder *coder)
+{
+	
+}
+

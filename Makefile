@@ -1,0 +1,26 @@
+NAME = codexion
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -pthread -g
+
+SRCS = src/main.c src/parser.c src/pqueue.c
+OBJS = $(SRCS:.c=.o)
+
+HEADER = src/codexion.h
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

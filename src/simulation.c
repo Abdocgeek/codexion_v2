@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/17 17:10:23 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 17:12:53 by abchahid         ###   ########.fr       */
+/*   Created: 2026/08/18 18:34:39 by abchahid          #+#    #+#             */
+/*   Updated: 2026/08/18 19:04:25 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
+# include "codexion.h"
 
-int	main(int argc, char **argv)
+void	start_simulation(t_data *data)
 {
-	t_data		data;
-	t_heapq		pqueue;
-	t_request	top;
+	int		i;
 
-	if (!parse_args(argc, argv, &data.args))
+	i = 0;
+	while (i < data->args.nb_coders)
 	{
-		printf("Error: Wrong arguments!\n");
-		return (1);
+		pthread
 	}
-	if (!init_data(&data))
-	{
-		printf("Error: Initialization error!");
-		return (1);
-	}
-	free_all(&data);
+}
+
+bool	is_simulation_running(t_data *data)
+{
+	bool	is_running;
+
+	pthread_mutex_lock(&data->state_lock);
+	is_running = &data->is_running;
+	pthread_mutex_unlock(&data->state_lock);
+	return is_running;
 }
