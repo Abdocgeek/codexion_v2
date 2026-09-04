@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:28:53 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 16:02:18 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/04 11:19:55 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	swap_nodes(t_request *request1, t_request *request2)
 	*request2 = temp;
 }
 
-bool	pqueue_push(t_heapq *pqueue, t_request *request)
+bool	pqueue_push(t_heapq *pqueue, t_request request)
 {
-	if (pqueue->size >= pqueue->capacity)
+	if (!pqueue || pqueue->size >= pqueue->capacity)
 		return (false);
-	pqueue->requests[pqueue->size] = *request;
+	pqueue->requests[pqueue->size] = request;
 	if (pqueue->size == 1)
 	{
 		if (pqueue->requests[1].priority < pqueue->requests[0].priority)
@@ -58,7 +58,8 @@ bool	pqueue_pop(t_heapq *pqueue, t_request *top)
 {
 	if (pqueue->size == 0)
 		return (false);
-	*top = pqueue->requests[0];
+	if (top != NULL)
+		*top = pqueue->requests[0];
 	if (pqueue->size == 2)
 		pqueue->requests[0] = pqueue->requests[1];
 	pqueue->size--;

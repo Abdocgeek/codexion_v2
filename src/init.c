@@ -6,28 +6,11 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:40:37 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 18:54:31 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/04 09:43:58 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-static bool	init_coders(t_data *data)
-{
-	int		i;
-
-	data->coders = (t_coder *)malloc(sizeof(t_coder) * data->args.nb_coders);
-	if (!data->coders)
-		return (false);
-	i = 0;
-	while (i < data->args.nb_coders)
-	{
-		data->coders[i].id = i + 1;
-		data->coders[i].last_compiled = 0;
-		i++;
-	}
-	return (true);
-}
 
 static bool	init_dongles(t_data *data)
 {
@@ -40,11 +23,33 @@ static bool	init_dongles(t_data *data)
 	while (i < data->args.nb_coders)
 	{
 		data->dongles[i].id = i;
-		data->dongles[i].last_released = 0;
+		data->dongles[i].is_available = true;
+		data->dongles[i].last_released_time = 0;
 		if (!pqueue_create(&data->dongles[i].pqueue))
 			return (false);
-		if (!pthread_mutex_init(&data->dongles[i].lock, NULL))
-			return (false);
+		pthread_mutex_init(&data->dongles[i].lock, NULL);
+		i++;
+	}
+	return (true);
+}
+
+static bool	init_coders(t_data *data)
+{
+	int		i;
+
+	data->coders = (t_coder *)malloc(sizeof(t_coder) * data->args.nb_coders);
+	if (!data->coders)
+		return (false);
+	i = 0;
+	while (i < data->args.nb_coders)
+	{
+		data->coders[i].id = i + 1;
+		data->coders[i].last_compiled_time = 0;
+		data->coders[i].compiles_done = 0;
+		data->coders[i].data = data;
+		data->coders[i].left_dongle = &data->dongles[i];
+		data->coders[i].right_dongle = &data->dongles[(i + 1) % data->args.nb_coders];
+		i++;
 	}
 	return (true);
 }
@@ -55,9 +60,12 @@ bool	init_data(t_data *data)
 		return (false);
 	if (!init_dongles(data))
 		return (false);
+	data->sim_running = false;
 	pthread_mutex_init(&data->print_lock, NULL);
 	pthread_mutex_init(&data->sim_start_lock, NULL);
 	pthread_cond_init(&data->sim_start_cond, NULL);
+	pthread_mutex_init(&data->state_lock, NULL);
+	return (true);
 }
 
 bool	free_all(t_data *data)
@@ -78,5 +86,7 @@ bool	free_all(t_data *data)
 		free(data->dongles);
 	}
 	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->sim_start_lock);
 	pthread_cond_destroy(&data->sim_start_cond);
+	pthread_mutex_destroy(&data->state_lock);
 }
