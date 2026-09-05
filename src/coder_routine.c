@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 18:08:24 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/04 08:05:52 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 22:07:47 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	*coder_routine(void *arg)
 
 	coder = (t_coder *)arg;
 	wait_for_start_signal(coder->data);
+	if (coder->id % 2 == 0)
+		ft_usleep(5, coder->data);
 	while (is_simulation_running(coder->data))
 	{
 		if (take_dongles(coder))

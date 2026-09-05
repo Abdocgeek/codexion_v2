@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 17:43:18 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 18:42:05 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 18:40:05 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ void	ft_usleep(long long wait_time, t_data *data)
 	start_time = get_current_time_ms();
 	while ((get_current_time_ms() - start_time) < wait_time)
 	{
-		// if (!is_simulation_running(data))
-		// 	break ;
-		// usleep(500);
+		if (!is_simulation_running(data))
+			break ;
 		usleep(500);
 	}
 }

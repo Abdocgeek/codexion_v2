@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 18:43:33 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/03 17:29:56 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 20:41:38 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_action(t_coder *coder, char *action)
 	pthread_mutex_unlock(&coder->data->print_lock);
 }
 
-void	do_compile(t_data *data, t_coder *coder)
+void	do_compile(t_coder *coder)
 {
 	pthread_mutex_lock(&coder->data->state_lock);
 	coder->last_compiled_time = get_current_time_ms();
@@ -34,7 +34,7 @@ void	do_compile(t_data *data, t_coder *coder)
 	ft_usleep(coder->data->args.compile_time, coder->data);
 	pthread_mutex_lock(&coder->data->state_lock);
 	coder->compiles_done++;
-	pthread_mutex_lock(&coder->data->state_lock);
+	pthread_mutex_unlock(&coder->data->state_lock);
 }
 
 void	do_debug(t_coder *coder)

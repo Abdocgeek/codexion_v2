@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:28:53 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/04 11:19:55 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 17:10:31 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ bool	pqueue_push(t_heapq *pqueue, t_request request)
 		if (pqueue->requests[1].priority < pqueue->requests[0].priority)
 			swap_nodes(&pqueue->requests[0], &pqueue->requests[1]);
 	}
+	else if (pqueue->requests[1].priority == pqueue->requests[0].priority
+		&& pqueue->requests[1].coder_id < pqueue->requests[0].coder_id)
+		{
+			swap_nodes(&pqueue->requests[0], &pqueue->requests[1]);
+		}
 	pqueue->size++;
 	return (true);
 }

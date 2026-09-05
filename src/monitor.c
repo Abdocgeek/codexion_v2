@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 18:48:41 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/04 08:03:31 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 23:57:17 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static bool	check_death(t_data *data)
 	{
 		time_now = get_current_time_ms();
 		pthread_mutex_lock(&data->state_lock);
-		if ((time_now - data->coders[i].last_compiled_time) > data->args.burnout_time)
+		if ((time_now - data->coders[i].last_compiled_time) >= data->args.burnout_time)
 		{
 			data->sim_running = false;
+			pthread_cond_broadcast(&data->table_cond);
 			pthread_mutex_unlock(&data->state_lock);
 			pthread_mutex_lock(&data->print_lock);
 			printf("%lld %d burned out\n", time_now - data->sim_start_time, data->coders[i].id);
@@ -56,6 +57,7 @@ static bool	check_success(t_data *data)
 	{
 		pthread_mutex_lock(&data->state_lock);
 		data->sim_running = false;
+		pthread_cond_broadcast(&data->table_cond);
 		pthread_mutex_unlock(&data->state_lock);
 		return (true);
 	}

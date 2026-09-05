@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/17 17:08:30 by abchahid          #+#    #+#             */
-/*   Updated: 2026/08/18 10:24:37 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 18:51:06 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ bool	parse_args(int argc, char **argv, t_sim_args *args)
 {
 	int			i;
 
-	if (argc != 8)
+	if (argc != 9)
 		return (false);
 	i = 1;
-	while (i < 7)
+	while (i < 8)
 	{
 		if (!is_valid_number(argv[i]))
 			return (false);
 		i++;
 	}
-	if (!set_scheduler(argv[7], &args->scheduler))
+	if (!set_scheduler(argv[8], &args->scheduler))
 		return (false);
 	args->nb_coders = atoi(argv[1]);
 	args->burnout_time = atoi(argv[2]);

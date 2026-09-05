@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:40:37 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/04 09:43:58 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/05 23:48:03 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static bool	init_dongles(t_data *data)
 		data->dongles[i].id = i;
 		data->dongles[i].is_available = true;
 		data->dongles[i].last_released_time = 0;
-		if (!pqueue_create(&data->dongles[i].pqueue))
+		data->dongles[i].pqueue = (t_heapq *)malloc(sizeof(t_heapq));
+		if (!data->dongles[i].pqueue)
+			return (false);
+		if (!pqueue_create(data->dongles[i].pqueue))
 			return (false);
 		pthread_mutex_init(&data->dongles[i].lock, NULL);
 		i++;
@@ -56,9 +59,11 @@ static bool	init_coders(t_data *data)
 
 bool	init_data(t_data *data)
 {
-	if(!init_coders(data))
+	if (data->args.burnout_time == 0 || data->args.compiles_req == 0)
 		return (false);
 	if (!init_dongles(data))
+		return (false);
+	if(!init_coders(data))
 		return (false);
 	data->sim_running = false;
 	pthread_mutex_init(&data->print_lock, NULL);
@@ -77,9 +82,10 @@ bool	free_all(t_data *data)
 		free(data->coders);
 	if (data->dongles)
 	{
-		while (i <= data->args.nb_coders)
+		while (i < data->args.nb_coders)
 		{
-			free(data->dongles[i].pqueue.requests);
+			free(data->dongles[i].pqueue->requests);
+			free(data->dongles[i].pqueue);
 			pthread_mutex_destroy(&data->dongles[i].lock);
 			i++;
 		}
@@ -89,4 +95,5 @@ bool	free_all(t_data *data)
 	pthread_mutex_destroy(&data->sim_start_lock);
 	pthread_cond_destroy(&data->sim_start_cond);
 	pthread_mutex_destroy(&data->state_lock);
+	return (true);
 }

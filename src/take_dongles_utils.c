@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   take_dongles_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/17 17:10:23 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/05 19:48:08 by abchahid         ###   ########.fr       */
+/*   Created: 2026/09/06 00:20:39 by abchahid          #+#    #+#             */
+/*   Updated: 2026/09/06 00:24:31 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	main(int argc, char **argv)
+void	lock_physical_dongles(t_coder *coder)
 {
-	t_data		data;
+	t_dongle	*first;
+	t_dongle	*second;
 
-	memset(&data, 0, sizeof(t_data));
-	if (!parse_args(argc, argv, &data.args))
+	if (coder->left_dongle->id < coder->right_dongle->id)
 	{
-		printf("Error: Wrong arguments!\n");
-		return (1);
+		first = coder->left_dongle;
+		second = coder->right_dongle;
 	}
-	if (!init_data(&data))
+	else
 	{
-		printf("Error: Initialization error!");
-		return (1);
+		first = coder->right_dongle;
+		second = coder->left_dongle;
 	}
-	start_simulation(&data);
-	stop_simulation(&data);
-	free_all(&data);
-	return (0);
+	pthread_mutex_lock(&first->lock);
+	print_action(coder, "has taken a dongle");
+	pthread_mutex_lock(&second->lock);
+	print_action(coder, "has taken a dongle");
 }

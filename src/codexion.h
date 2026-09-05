@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/17 16:48:40 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/04 10:59:56 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 00:26:10 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 typedef enum	e_scheduler
 {
@@ -40,7 +41,6 @@ typedef struct	s_sim_args
 
 typedef struct	s_request
 {
-	// t_coder		coder;
 	int			coder_id;
 	long long	priority;
 }	t_request;
@@ -58,7 +58,6 @@ typedef struct	s_dongle
 	bool			is_available;
 	long long		last_released_time;
 	t_heapq			*pqueue;
-	pthread_mutex_t	pqueue_lock;
 	pthread_mutex_t	lock;
 }	t_dongle;
 
@@ -99,10 +98,15 @@ void		ft_usleep(long long wait_time, t_data *data);
 void		*coder_routine(void *arg);
 void		*monitor_routine(void *arg);
 void		print_action(t_coder *coder, char *action);
-void		do_compile(t_data *data, t_coder *coder);
+void		do_compile(t_coder *coder);
 void		do_debug(t_coder *coder);
 void		do_refactor(t_coder *coder);
 bool		is_simulation_running(t_data *data);
 void		start_simulation(t_data *data);
+void		stop_simulation(t_data *data);
+bool		take_dongles(t_coder *coder);
+void		lock_physical_dongles(t_coder *coder);
+void		drop_dongles(t_coder *coder);
+bool		free_all(t_data *data);
 
 #endif
