@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/04 08:50:51 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 13:38:19 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 16:53:41 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	enqueue_coder(t_coder *coder, t_dongle *dongle)
 	t_request	coder_request;
 
 	coder_request.coder_id = coder->id;
+	coder_request.compiles_done = coder->compiles_done;
 	if (coder->data->args.scheduler == EDF)
 	{
 		coder_request.priority = (coder->last_compiled_time

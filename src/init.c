@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:40:37 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 13:31:01 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 15:53:02 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ static bool	init_coders(t_data *data)
 
 bool	init_data(t_data *data)
 {
-	if (data->args.burnout_time == 0 || data->args.compiles_req == 0)
-		return (false);
 	if (!init_dongles(data))
 		return (false);
 	if (!init_coders(data))

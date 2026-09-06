@@ -1,6 +1,6 @@
 NAME = codexion
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -pthread -g
+CFLAGS = -Wall -Werror -Wextra -pthread
 
 SRCS = src/main.c src/parser.c src/pqueue.c src/coder_actions.c \
 	src/coder_routine.c src/take_dongles.c src/drop_dongles.c \

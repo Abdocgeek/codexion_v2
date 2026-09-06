@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/17 16:48:40 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 13:26:58 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 16:53:04 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_request
 {
 	int			coder_id;
 	long long	priority;
+	int			compiles_done;
 }	t_request;
 
 typedef struct s_heapq

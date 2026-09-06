@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/17 17:10:23 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/05 19:48:08 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 15:55:44 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(int argc, char **argv)
 		printf("Error: Wrong arguments!\n");
 		return (1);
 	}
+	if (data.args.burnout_time == 0 || data.args.compiles_req == 0)
+		return (false);
 	if (!init_data(&data))
 	{
 		printf("Error: Initialization error!");
