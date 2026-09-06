@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 18:43:33 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/05 20:41:38 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 13:33:59 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,3 @@ void	do_refactor(t_coder *coder)
 	print_action(coder, "is refactoring");
 	ft_usleep(coder->data->args.refactor_time, coder->data);
 }
-
-

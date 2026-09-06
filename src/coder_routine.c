@@ -6,17 +6,16 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 18:08:24 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/05 22:07:47 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 13:34:14 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-
 static void	wait_for_start_signal(t_data *data)
 {
 	pthread_mutex_lock(&data->sim_start_lock);
-	while (!data->sim_running)
+	while (data->sim_start_time == 0)
 	{
 		pthread_cond_wait(&data->sim_start_cond, &data->sim_start_lock);
 	}
@@ -37,7 +36,13 @@ void	*coder_routine(void *arg)
 		{
 			do_compile(coder);
 			drop_dongles(coder);
+			if (coder->compiles_done == coder->data->args.compiles_req)
+				break ;
+			if (!is_simulation_running(coder->data))
+				break ;
 			do_debug(coder);
+			if (!is_simulation_running(coder->data))
+				break ;
 			do_refactor(coder);
 		}
 		if (coder->compiles_done == coder->data->args.compiles_req)

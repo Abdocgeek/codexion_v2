@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 00:20:39 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 00:24:31 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 11:04:16 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,13 @@ void	lock_physical_dongles(t_coder *coder)
 	pthread_mutex_lock(&second->lock);
 	print_action(coder, "has taken a dongle");
 }
+// void    lock_physical_dongles(t_coder *coder)
+// {
+//     // 1. Every coder blindly grabs their left dongle first
+//     pthread_mutex_lock(&coder->left_dongle->lock);
+//     print_action(coder, "has taken a dongle");
+
+//     // 2. Then, every coder tries to grab their right dongle
+//     pthread_mutex_lock(&coder->right_dongle->lock);
+//     print_action(coder, "has taken a dongle");
+// }

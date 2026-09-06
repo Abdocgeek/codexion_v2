@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/17 16:48:40 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 00:26:10 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 13:26:58 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef enum	e_scheduler
+typedef enum e_scheduler
 {
 	FIFO,
 	EDF
 }	t_scheduler;
 
-typedef struct	s_sim_args
+typedef struct s_sim_args
 {
 	int				nb_coders;
 	int				burnout_time;
@@ -39,20 +39,20 @@ typedef struct	s_sim_args
 	t_scheduler		scheduler;
 }	t_sim_args;
 
-typedef struct	s_request
+typedef struct s_request
 {
 	int			coder_id;
 	long long	priority;
 }	t_request;
 
-typedef struct	s_heapq
+typedef struct s_heapq
 {
 	t_request	*requests;
 	int			capacity;
 	int			size;
 }	t_heapq;
 
-typedef struct	s_dongle
+typedef struct s_dongle
 {
 	int				id;
 	bool			is_available;
@@ -61,7 +61,7 @@ typedef struct	s_dongle
 	pthread_mutex_t	lock;
 }	t_dongle;
 
-typedef struct	s_coder
+typedef struct s_coder
 {
 	int				id;
 	pthread_t		thread_id;
@@ -72,7 +72,7 @@ typedef struct	s_coder
 	struct s_data	*data;
 }	t_coder;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_sim_args			args;
 	t_dongle			*dongles;

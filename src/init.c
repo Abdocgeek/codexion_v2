@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 10:40:37 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/05 23:48:03 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 13:31:01 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static bool	init_coders(t_data *data)
 		data->coders[i].compiles_done = 0;
 		data->coders[i].data = data;
 		data->coders[i].left_dongle = &data->dongles[i];
-		data->coders[i].right_dongle = &data->dongles[(i + 1) % data->args.nb_coders];
+		data->coders[i].right_dongle = &data->dongles[(i + 1)
+			% data->args.nb_coders];
 		i++;
 	}
 	return (true);
@@ -63,7 +64,7 @@ bool	init_data(t_data *data)
 		return (false);
 	if (!init_dongles(data))
 		return (false);
-	if(!init_coders(data))
+	if (!init_coders(data))
 		return (false);
 	data->sim_running = false;
 	pthread_mutex_init(&data->print_lock, NULL);

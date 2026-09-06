@@ -6,7 +6,7 @@
 /*   By: abchahid <abchahid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/04 08:50:51 by abchahid          #+#    #+#             */
-/*   Updated: 2026/09/06 00:27:47 by abchahid         ###   ########.fr       */
+/*   Updated: 2026/09/06 13:38:19 by abchahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	enqueue_coder(t_coder *coder, t_dongle *dongle)
 	if (coder->data->args.scheduler == EDF)
 	{
 		coder_request.priority = (coder->last_compiled_time
-			+ coder->data->args.burnout_time);		
+				+ coder->data->args.burnout_time);
 	}
 	else
 		coder_request.priority = get_current_time_ms();
 	pqueue_push(dongle->pqueue, coder_request);
 }
 
-static int		get_top_coder_id(t_heapq *pqueue)
+static int	get_top_coder_id(t_heapq *pqueue)
 {
 	t_request	top;
 
@@ -53,14 +53,15 @@ static bool	wait_for_dongles(t_coder *coder)
 	long long	cooldown;
 
 	cooldown = coder->data->args.cooldown_time;
-	while(1)
+	while (1)
 	{
 		if (!coder->data->sim_running)
-            return (false);
+			return (false);
 		now = get_current_time_ms();
 		if (!can_take_dongles(coder))
 		{
-			pthread_cond_wait(&coder->data->table_cond, &coder->data->state_lock);
+			pthread_cond_wait(&coder->data->table_cond,
+				&coder->data->state_lock);
 		}
 		else if (now - coder->left_dongle->last_released_time < cooldown
 			|| now - coder->right_dongle->last_released_time < cooldown)
